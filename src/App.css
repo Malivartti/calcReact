@@ -1,0 +1,48 @@
+.App {
+  width: 364px;
+  list-style: none;
+  background: #17171C;
+  color: #fff;
+  padding: 20px;
+}
+
+.App__screen {
+  display: block;
+  font-size: 96px;
+  line-height: 96px;
+  text-align: right;
+  border-bottom: 1px solid #fff;
+  margin-bottom: 16px;
+}
+
+.App__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.App__btn {
+  width: 100%;
+  height: 70px;
+  background: #2E2F38;
+  border-radius: 24px;
+  color: inherit;
+  font-size: 30px;
+  transition: opacity .2s linear;
+}
+
+.App__btn:hover {
+  opacity: .7;
+}
+
+.App__btn_sign {
+  background: #4B5EFC;
+}
+
+.App__btn_c {
+  grid-column: span 2;
+}
+
+.App__btn_z {
+  grid-column: span 3;
+}
