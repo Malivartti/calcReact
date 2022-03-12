@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from './Button'
 import './App.css'
 
@@ -12,14 +12,15 @@ const valueButtons = [
 
 function backSpace(data) {
   let [value, setValue, setScreen] = data
-  if (value === null || value === '') return null
-  const result = value.length == 1 ? null : String(value).slice(0, -1)
+  if (value === null) return ''
+  const result = value.length == 1 ? '' : String(value).slice(0, -1)
   setValue(result)
   setScreen(result)
 }
 
 function addNumber(data) {
   let [nextValue, setValue, currenValue, setScreen] = data;
+  if (String(nextValue).length == 14) return
   const result = nextValue === null ? currenValue : nextValue + currenValue
   setValue(result)
   setScreen(result)
@@ -45,6 +46,9 @@ function App() {
   const [mathSign, setMathSign] = useState(null);
   const [secondNumber, setSecondNumber] = useState(null);
   const buttons = valueButtons.map((el) => <Button key={el} value={el} handleClick={handleClick} />)
+  useEffect(() => {
+    console.log(firstNumber, mathSign, secondNumber)
+  })
 
   function handleClick(value) {
     if (value === '←') {
@@ -52,10 +56,10 @@ function App() {
       return
     }
     if (value === 'c') {
-      setScreen(0)
       setFirstNumber(null);
       setMathSign(null);
       setSecondNumber(null);
+      setScreen(0)
       return
     }
 
@@ -63,7 +67,7 @@ function App() {
       addNumber(secondNumber === null ? [firstNumber, setFirstNumber, value, setScreen] : [secondNumber, setSecondNumber, value, setScreen])
     } else {
       if (firstNumber === null) return
-      if (secondNumber === '' && value === '=') return
+      if (secondNumber === null && value === '=') return
       if (secondNumber === '' && mathSign) {
         setMathSign(value)
         setScreen(value)
@@ -75,14 +79,18 @@ function App() {
         setScreen(value)
         return
       }
-      const result = getResult(firstNumber, mathSign, secondNumber).toFixed(4)
+      const result = getResult(firstNumber, mathSign, secondNumber)
       setFirstNumber(result)
-      setMathSign(null)
-      setSecondNumber(null)
+      setMathSign(value == '=' ? null : value)
+      setSecondNumber(value == '=' ? null : '')
       setScreen(result)
-    }
+    } 
   }
-  console.log(firstNumber, mathSign, secondNumber)
+
+  if (String(screen).length > 7) {
+    setScreen(String(screen).slice(String(screen).length - 7))
+  }
+
   return (
     <div className="App">
     <span className='App__screen'>{screen || 0}</span>

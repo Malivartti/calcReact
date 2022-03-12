@@ -9,7 +9,7 @@
 .App__screen {
   display: block;
   font-size: 96px;
-  line-height: 96px;
+  line-height: 1;
   text-align: right;
   border-bottom: 1px solid #fff;
   margin-bottom: 16px;
